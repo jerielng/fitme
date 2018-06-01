@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FitMe</string>
+    <string name="title_generate">Generate</string>
+    <string name="title_generate_full">Generate My Workout</string>
+    <string name="title_saved">Saved Workouts</string>
+    <string name="title_gym">Find Gym</string>
+    <string name="title_gym_full">Find a Gym Near Me</string>
+</resources>

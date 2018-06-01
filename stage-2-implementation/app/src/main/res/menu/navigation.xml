@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_saved"
+        android:icon="@drawable/ic_list_icon"
+        android:title="@string/title_saved" />
+
+    <item
+        android:id="@+id/navigation_generate"
+        android:icon="@drawable/ic_gym_icon"
+        android:title="@string/title_generate" />
+
+    <item
+        android:id="@+id/navigation_gym"
+        android:icon="@drawable/ic_map_icon"
+        android:title="@string/title_gym" />
+
+</menu>
