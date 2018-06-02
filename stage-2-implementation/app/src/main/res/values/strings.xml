@@ -5,4 +5,6 @@
     <string name="title_saved">Saved Workouts</string>
     <string name="title_gym">Find Gym</string>
     <string name="title_gym_full">Find a Gym Near Me</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
