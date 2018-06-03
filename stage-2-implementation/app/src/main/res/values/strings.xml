@@ -8,7 +8,9 @@
     <string name="generate_subheader">Select all that apply</string>
     <string name="muscle_header">What do you want work on?</string>
     <string name="equipment_header">What equipment do you want to use?</string>
-    <string name="exercises_header">Here are all your available exercises</string>
+    <string name="exercises_header">Here are all your available exercises:</string>
+    <string name="saved_workouts_default">You have no saved workouts.</string>
+    <string name="saved_workouts_default_sub">Click on \"Generate\" to create a workout.</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 </resources>

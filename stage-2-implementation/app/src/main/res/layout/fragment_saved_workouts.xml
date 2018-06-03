@@ -11,4 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/saved_workouts_list_rv"/>
+
+    <LinearLayout
+        android:id="@+id/no_workouts_text_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/header_text"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="@string/saved_workouts_default"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/header_subtext"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_weight="6"
+            android:text="@string/saved_workouts_default_sub"/>
+    </LinearLayout>
 </FrameLayout>

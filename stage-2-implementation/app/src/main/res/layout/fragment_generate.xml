@@ -61,5 +61,5 @@
         android:layout_marginRight="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_bottom_margin"
         android:src="@drawable/ic_next"
-        android:id="@+id/fab_button"/>
+        android:id="@+id/generate_fab"/>
 </FrameLayout>

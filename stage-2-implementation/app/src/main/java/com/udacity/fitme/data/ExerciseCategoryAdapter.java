@@ -27,6 +27,7 @@ public class ExerciseCategoryAdapter extends
 
     public Context mContext;
     private ArrayList<Pair<Integer, String>> mCategoryList;
+    private ArrayList<Integer> mSelectedIdList;
 
     public class ExerciseCategoryViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout mTextHolder;
@@ -46,9 +47,16 @@ public class ExerciseCategoryAdapter extends
             if (selected) {
                 mTextHolder.setBackgroundResource(R.color.card_back);
                 selected = false;
+                for (int i = 0; i < mSelectedIdList.size(); i++) {
+                    if (mSelectedIdList.get(i) == mCategoryId) {
+                        mSelectedIdList.remove(i);
+                        break;
+                    }
+                }
             } else {
                 mTextHolder.setBackgroundResource(R.color.colorPrimaryDark);
                 selected = true;
+                mSelectedIdList.add(mCategoryId);
             }
         }
     }
@@ -56,6 +64,7 @@ public class ExerciseCategoryAdapter extends
     public ExerciseCategoryAdapter(Context context, String jsonString) {
         mContext = context;
         mCategoryList = new ArrayList<>();
+        mSelectedIdList = new ArrayList<>();
         extractExerciseCategories(jsonString);
     }
 
@@ -68,7 +77,7 @@ public class ExerciseCategoryAdapter extends
                         ViewGroup.LayoutParams.WRAP_CONTENT);
         holderParams.setMargins(15, 15, 15, 15);
         categoryLayout.setLayoutParams(holderParams);
-        categoryLayout.setPadding(50, 250, 50, 250);
+        categoryLayout.setPadding(50, 200, 50, 200);
         categoryLayout.setBackgroundResource(R.color.card_back);
         categoryLayout.setElevation(8);
         ExerciseCategoryViewHolder categoryViewHolder =

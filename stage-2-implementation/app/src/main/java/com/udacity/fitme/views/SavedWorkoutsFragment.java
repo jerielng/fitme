@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.udacity.fitme.R;
 import com.udacity.fitme.data.SavedWorkoutAdapter;
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 public class SavedWorkoutsFragment extends Fragment {
 
     @BindView(R.id.saved_workouts_list_rv) RecyclerView mWorkoutListRecycler;
+    @BindView(R.id.no_workouts_text_container) LinearLayout mNoWorkoutsContainer;
     private RecyclerView.Adapter mWorkoutAdapter;
     private RecyclerView.LayoutManager mWorkoutLayoutManager;
 
@@ -45,6 +47,11 @@ public class SavedWorkoutsFragment extends Fragment {
 
         mWorkoutAdapter = new SavedWorkoutAdapter();
         mWorkoutListRecycler.setAdapter(mWorkoutAdapter);
+
+
+        if (mWorkoutAdapter.getItemCount() == 0) {
+            mNoWorkoutsContainer.setVisibility(View.VISIBLE);
+        }
 
         ((AppCompatActivity) mContext)
                 .getSupportActionBar()
