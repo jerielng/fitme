@@ -1,11 +1,14 @@
 package com.udacity.fitme.data;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 public class SavedWorkoutAdapter extends RecyclerView.Adapter {
+
+    public Context mContext;
 
     public class SavedWorkoutAdapterViewHolder extends RecyclerView.ViewHolder {
         public SavedWorkoutAdapterViewHolder(LinearLayout view) {

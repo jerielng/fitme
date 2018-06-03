@@ -5,6 +5,10 @@
     <string name="title_saved">Saved Workouts</string>
     <string name="title_gym">Find Gym</string>
     <string name="title_gym_full">Find a Gym Near Me</string>
+    <string name="generate_subheader">Select all that apply</string>
+    <string name="muscle_header">What do you want work on?</string>
+    <string name="equipment_header">What equipment do you want to use?</string>
+    <string name="exercises_header">Here are all your available exercises</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 </resources>

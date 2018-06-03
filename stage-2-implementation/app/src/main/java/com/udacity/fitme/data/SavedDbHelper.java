@@ -16,7 +16,9 @@ public class SavedDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        final String SQL_CREATE_WORKOUTS_TABLE =
+                "CREATE TABLE " + TABLE_NAME
+                + " (";
     }
 
     @Override

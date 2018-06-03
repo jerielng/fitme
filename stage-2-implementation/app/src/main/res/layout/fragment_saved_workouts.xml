@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.SavedWorkoutsFragment">
+    tools:context=".views.SavedWorkoutsFragment"
+    android:paddingBottom="@dimen/fragment_bottom_padding"
+    android:background="@color/appBackground">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
