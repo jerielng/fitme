@@ -9,6 +9,25 @@ import android.support.annotation.Nullable;
 
 public class WorkoutProvider extends ContentProvider {
 
+    public static final String PREFIX = "content://";
+    public static final String AUTHORITY = "com.udacity.fitme";
+    public static final Uri URI_BASE = Uri.parse(PREFIX + AUTHORITY);
+    public static final Uri WORKOUT_CONTENT_URI =
+            URI_BASE.buildUpon().appendPath(SavedDbHelper.WORKOUTS_TABLE_NAME).build();
+    public static final Uri EQUIPMENT_CONTENT_URI =
+            URI_BASE.buildUpon().appendPath(SavedDbHelper.EQUIPMENT_TABLE_NAME).build();
+    public static final Uri MUSCLES_CONTENT_URI =
+            URI_BASE.buildUpon().appendPath(SavedDbHelper.MUSCLES_TABLE_NAME).build();
+    public static final Uri IMAGES_CONTENT_URI =
+            URI_BASE.buildUpon().appendPath(SavedDbHelper.IMAGES_TABLE_NAME).build();
+
+    public static final String COLUMN_ID = "_ID";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_MUSCLE_CATEGORY = "muscle_category";
+    public static final String COLUMN_EQUIPMENT = "equipment";
+    public static final String COLUMN_IMAGE_URL = "image_url";
+
     @Override
     public boolean onCreate() {
         return false;

@@ -6,10 +6,10 @@
     <dimen name="rv_edge_padding">5dp</dimen>
     <dimen name="fab_margin">15dp</dimen>
     <dimen name="fab_bottom_margin">8dp</dimen>
-    <dimen name="header_text">28sp</dimen>
+    <dimen name="header_text">26sp</dimen>
     <dimen name="header_subtext">16sp</dimen>
-    <dimen name="header_padding">10dp</dimen>
-    <dimen name="subheader_padding">5dp</dimen>
+    <dimen name="header_padding">8dp</dimen>
+    <dimen name="subheader_padding">3dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

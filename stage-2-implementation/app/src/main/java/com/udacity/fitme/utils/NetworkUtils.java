@@ -14,6 +14,7 @@ public class NetworkUtils {
     private static final String BASE_URL = "https://wger.de/api/v2/";
     private static final String EQUIPMENT = "equipment";
     private static final String EXERCISE_CATEGORY = "exercisecategory";
+    private static final String EXERCISE = "exercise";
     private static final String LANGUAGE = "language";
 
     public static URL buildCategoriesUrl() {
@@ -44,7 +45,7 @@ public class NetworkUtils {
 
     public static URL buildExerciseUrl() {
         Uri uri = Uri.parse(BASE_URL).buildUpon()
-                .appendPath("")
+                .appendPath(EXERCISE)
                 .appendQueryParameter(LANGUAGE, "2")
                 .appendQueryParameter(EQUIPMENT, "3")
                 .appendQueryParameter(EXERCISE_CATEGORY, "5")

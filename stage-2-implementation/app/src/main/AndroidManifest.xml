@@ -30,6 +30,14 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/workout_widget_provider_info" />
         </receiver>
+
+        <activity
+            android:name=".WorkoutDetailActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>
