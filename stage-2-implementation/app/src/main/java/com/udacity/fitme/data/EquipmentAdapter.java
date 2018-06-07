@@ -128,4 +128,20 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.Equi
             e.printStackTrace();
         }
     }
+
+    public ArrayList<Pair<Integer, String>> getmEquipmentList() {
+        return mEquipmentList;
+    }
+
+    public void setmEquipmentList(ArrayList<Pair<Integer, String>> mEquipmentList) {
+        this.mEquipmentList = mEquipmentList;
+    }
+
+    public ArrayList<Integer> getmSelectedIdList() {
+        return mSelectedIdList;
+    }
+
+    public void setmSelectedIdList(ArrayList<Integer> mSelectedIdList) {
+        this.mSelectedIdList = mSelectedIdList;
+    }
 }

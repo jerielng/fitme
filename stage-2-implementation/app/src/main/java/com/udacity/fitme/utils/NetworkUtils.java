@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class NetworkUtils {
@@ -43,13 +44,18 @@ public class NetworkUtils {
         return url;
     }
 
-    public static URL buildExerciseUrl() {
+    public static URL buildExerciseUrl(ArrayList<Integer> categoryList,
+                                       ArrayList<Integer> equipmentList) {
         Uri uri = Uri.parse(BASE_URL).buildUpon()
                 .appendPath(EXERCISE)
-                .appendQueryParameter(LANGUAGE, "2")
-                .appendQueryParameter(EQUIPMENT, "3")
-                .appendQueryParameter(EXERCISE_CATEGORY, "5")
-                .build();
+                .appendQueryParameter(LANGUAGE, "2").build();
+        for (int i : categoryList) {
+            uri = uri.buildUpon()
+                    .appendQueryParameter(EXERCISE_CATEGORY, Integer.toString(i)).build();
+        }
+        for (int i : equipmentList) {
+            uri = uri.buildUpon().appendQueryParameter(EQUIPMENT, Integer.toString(i)).build();
+        }
         URL url = null;
         try {
             url = new URL(uri.toString());
@@ -57,6 +63,10 @@ public class NetworkUtils {
             e.printStackTrace();
         }
         return url;
+    }
+
+    public static URL buildImageUrl() {
+        return null;
     }
 
     /* This code was referenced from the Udacity Sunshine exercise on Networking */

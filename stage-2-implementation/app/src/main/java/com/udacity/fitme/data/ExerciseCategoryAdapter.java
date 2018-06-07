@@ -129,4 +129,20 @@ public class ExerciseCategoryAdapter extends
             e.printStackTrace();
         }
     }
+
+    public ArrayList<Pair<Integer, String>> getmCategoryList() {
+        return mCategoryList;
+    }
+
+    public void setmCategoryList(ArrayList<Pair<Integer, String>> mCategoryList) {
+        this.mCategoryList = mCategoryList;
+    }
+
+    public ArrayList<Integer> getmSelectedIdList() {
+        return mSelectedIdList;
+    }
+
+    public void setmSelectedIdList(ArrayList<Integer> mSelectedIdList) {
+        this.mSelectedIdList = mSelectedIdList;
+    }
 }

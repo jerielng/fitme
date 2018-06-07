@@ -122,6 +122,9 @@ public class GenerateFragment extends Fragment {
                 mEquipmentView.setVisibility(View.GONE);
                 mExerciseView.setVisibility(View.VISIBLE);
                 mGenerateFab.setImageResource(R.drawable.ic_baseline_thumb_up_24px);
+                if (mCategoryAdapter != null && mEquipmentAdapter != null) {
+                    new FetchExercisesTask().execute();
+                }
                 break;
             default:
                 resetFragment();
@@ -132,9 +135,9 @@ public class GenerateFragment extends Fragment {
     public void resetFragment() {
         mStepPosition = 0;
         ((AnimationDrawable) mLoadingImage.getBackground()).start();
+        showLoading();
         new FetchCategoriesTask().execute();
         new FetchEquipmentTask().execute();
-//        new FetchExercisesTask().execute();
         swapStepView();
     }
 
@@ -175,7 +178,6 @@ public class GenerateFragment extends Fragment {
     class FetchCategoriesTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... voids) {
-            showLoading();
             try {
                 URL categoriesRequestUrl = NetworkUtils.buildCategoriesUrl();
                 return NetworkUtils.getResponseFromHttpUrl(categoriesRequestUrl);
@@ -215,9 +217,11 @@ public class GenerateFragment extends Fragment {
     class FetchExercisesTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... voids) {
-            showLoading();
             try {
-                URL exerciseRequestUrl = NetworkUtils.buildExerciseUrl();
+
+                URL exerciseRequestUrl = NetworkUtils.buildExerciseUrl
+                        (((ExerciseCategoryAdapter) mCategoryAdapter).getmSelectedIdList(),
+                                ((EquipmentAdapter) mEquipmentAdapter).getmSelectedIdList());
                 return NetworkUtils.getResponseFromHttpUrl(exerciseRequestUrl);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -228,8 +232,22 @@ public class GenerateFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             hideLoading();
-            mExerciseAdapter = new ExerciseAdapter();
+            mExerciseAdapter = new ExerciseAdapter(getContext(), s);
             mExerciseView.setAdapter(mExerciseAdapter);
+            new FetchImageUrlsTask().execute();
+        }
+    }
+
+    class FetchImageUrlsTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... voids) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            //go in and individually create and set each image url list
         }
     }
 }
