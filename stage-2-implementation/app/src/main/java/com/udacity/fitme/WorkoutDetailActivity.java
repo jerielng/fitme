@@ -4,11 +4,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
+import com.udacity.fitme.model.Exercise;
+
+import java.util.ArrayList;
+
 import butterknife.BindView;
 
 public class WorkoutDetailActivity extends AppCompatActivity {
 
     private String mWorkoutName;
+    private ArrayList<Exercise> mExerciseList;
 
     @BindView(R.id.workout_detail_rv) RecyclerView mWorkoutDetailRecycler;
 

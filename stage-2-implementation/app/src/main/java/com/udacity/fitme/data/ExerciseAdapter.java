@@ -1,8 +1,11 @@
 package com.udacity.fitme.data;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +34,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     private ArrayList<Exercise> mSelectedExerciseList;
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {
-        public Exercise mExerciseObject;
+        public int mExerciseId;
         public LinearLayout mTextHolder;
         public TextView mNameText;
         public TextView mDescriptionText;
@@ -52,7 +55,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
                 mTextHolder.setBackgroundResource(R.color.card_back);
                 selected = false;
                 for (int i = 0; i < mSelectedExerciseList.size(); i++) {
-                    if (mSelectedExerciseList.get(i).getmId() == mExerciseObject.getmId()) {
+                    if (mSelectedExerciseList.get(i).getmId() == mExerciseId) {
                         mSelectedExerciseList.remove(i);
                         break;
                     }
@@ -60,7 +63,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             } else {
                 mTextHolder.setBackgroundResource(R.color.colorPrimaryDark);
                 selected = true;
-                mSelectedExerciseList.add(mExerciseObject);
+                for (int i = 0; i < mExerciseList.size(); i++) {
+                    if (mExerciseList.get(i).getmId() == mExerciseId) {
+                        mSelectedExerciseList.add(mExerciseList.get(i));
+                    }
+                }
             }
         }
     }
@@ -75,12 +82,50 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     @NonNull
     @Override
     public ExerciseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        LinearLayout exerciseCardLayout = new LinearLayout(mContext);
+        LinearLayout.LayoutParams holderParams =
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+        holderParams.setMargins(15, 15, 15, 15);
+        exerciseCardLayout.setLayoutParams(holderParams);
+        exerciseCardLayout.setOrientation(LinearLayout.VERTICAL);
+        exerciseCardLayout.setPadding(50, 100, 50, 100);
+        exerciseCardLayout.setBackgroundResource(R.color.card_back);
+        exerciseCardLayout.setElevation(8);
+        ExerciseViewHolder exerciseCard = new ExerciseViewHolder(exerciseCardLayout);
+        return exerciseCard;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ExerciseViewHolder holder, int position) {
+        final ExerciseViewHolder holderIn = holder;
+        LinearLayout.LayoutParams textParams =
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
 
+        holder.mExerciseId = mExerciseList.get(position).getmId();
+
+        holder.mNameText.setLayoutParams(textParams);
+        holder.mNameText.setText(mExerciseList.get(position).getmName());
+        holder.mNameText.setTextColor(mContext.getResources().getColor(R.color.card_text));
+        holder.mNameText.setTextSize(22);
+        holder.mNameText.setTypeface(Typeface.DEFAULT_BOLD);
+        holder.mNameText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        holder.mNameText.setPadding(0, 0, 0, 15);
+
+        holder.mDescriptionText.setLayoutParams(textParams);
+        holder.mDescriptionText.setText(mExerciseList.get(position).getmDescription());
+        holder.mDescriptionText.setTextColor(mContext.getResources().getColor(R.color.card_text));
+        holder.mDescriptionText.setTextSize(18);
+        holder.mDescriptionText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        holder.mDescriptionText.setPadding(0, 15, 0, 0);
+
+        holder.mTextHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holderIn.toggleViewSelected();
+            }
+        });
     }
 
     @Override
@@ -94,7 +139,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             for (int i = 0; i < exerciseArray.length(); i++) {
                 int id = exerciseArray.getJSONObject(i).getInt(JSON_ID);
                 String name = exerciseArray.getJSONObject(i).getString(JSON_NAME);
-                String description = exerciseArray.getJSONObject(i).getString(JSON_DESCRIPTION);
+                String description = Html.fromHtml
+                        (exerciseArray.getJSONObject(i).getString(JSON_DESCRIPTION))
+                        .toString();
                 int category = exerciseArray.getJSONObject(i).getInt(JSON_CATEGORY);
 
                 ArrayList<Integer> muscleList = new ArrayList<>();
@@ -118,5 +165,21 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Exercise> getmExerciseList() {
+        return mExerciseList;
+    }
+
+    public void setmExerciseList(ArrayList<Exercise> mExerciseList) {
+        this.mExerciseList = mExerciseList;
+    }
+
+    public ArrayList<Exercise> getmSelectedExerciseList() {
+        return mSelectedExerciseList;
+    }
+
+    public void setmSelectedExerciseList(ArrayList<Exercise> mSelectedExerciseList) {
+        this.mSelectedExerciseList = mSelectedExerciseList;
     }
 }

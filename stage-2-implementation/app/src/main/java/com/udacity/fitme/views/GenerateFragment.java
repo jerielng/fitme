@@ -118,6 +118,7 @@ public class GenerateFragment extends Fragment {
                 break;
             case 2:
                 mHeaderText.setText(getString(R.string.exercises_header));
+                showLoading();
                 mCategoryView.setVisibility(View.GONE);
                 mEquipmentView.setVisibility(View.GONE);
                 mExerciseView.setVisibility(View.VISIBLE);
@@ -154,6 +155,8 @@ public class GenerateFragment extends Fragment {
                 Intent detailIntent = new Intent(getActivity(), WorkoutDetailActivity.class);
                 detailIntent.putExtra(getString(R.string.workout_name_extra),
                         editText.getText().toString());
+                detailIntent.putExtra("array_list",
+                        ((ExerciseAdapter) mExerciseAdapter).getmSelectedExerciseList());
                 getActivity().startActivity(detailIntent);
             }
         });

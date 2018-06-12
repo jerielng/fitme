@@ -9,7 +9,7 @@
     <string name="generate_subheader">Select all that apply</string>
     <string name="muscle_header">What do you want work on?</string>
     <string name="equipment_header">What equipment do you have?</string>
-    <string name="exercises_header">You can do these exercises:</string>
+    <string name="exercises_header">You can add these exercises:</string>
     <string name="enter_workout_name">Enter a name for your workout:</string>
     <string name="generate_button_text">Generate</string>
     <string name="cancel_button_text">Cancel</string>

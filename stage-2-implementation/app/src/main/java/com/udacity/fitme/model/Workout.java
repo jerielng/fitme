@@ -1,8 +1,9 @@
 package com.udacity.fitme.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Workout {
+public class Workout implements Serializable {
     private String mName;
     private ArrayList<Exercise> mExerciseList;
 
