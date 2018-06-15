@@ -14,6 +14,12 @@
     <string name="generate_button_text">Generate</string>
     <string name="cancel_button_text">Cancel</string>
     <string name="workout_name_extra">workout_name</string>
+    <string name="exercise_list_extra">exercise_list</string>
+    <string name="add_to_widget">Add to Widget</string>
+    <string name="save_this_workout">Save this Workout</string>
+    <string name="toast_workout_saved">Workout Saved!</string>
+    <string name="toast_added_to_widget">Added to Widget!</string>
+    <string name="button_show_me_how">Show Me How</string>
     <string name="no_workouts_found">Sorry! There are no workouts for your criteria.</string>
     <string name="saved_workouts_default">You have no saved workouts.</string>
     <string name="saved_workouts_default_sub">Click on \"Generate\" to create a workout.</string>

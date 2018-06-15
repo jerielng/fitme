@@ -155,7 +155,7 @@ public class GenerateFragment extends Fragment {
                 Intent detailIntent = new Intent(getActivity(), WorkoutDetailActivity.class);
                 detailIntent.putExtra(getString(R.string.workout_name_extra),
                         editText.getText().toString());
-                detailIntent.putExtra("array_list",
+                detailIntent.putParcelableArrayListExtra(getString(R.string.exercise_list_extra),
                         ((ExerciseAdapter) mExerciseAdapter).getmSelectedExerciseList());
                 getActivity().startActivity(detailIntent);
             }
@@ -237,20 +237,6 @@ public class GenerateFragment extends Fragment {
             hideLoading();
             mExerciseAdapter = new ExerciseAdapter(getContext(), s);
             mExerciseView.setAdapter(mExerciseAdapter);
-            new FetchImageUrlsTask().execute();
-        }
-    }
-
-    class FetchImageUrlsTask extends AsyncTask<Void, Void, String> {
-        @Override
-        protected String doInBackground(Void... voids) {
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            //go in and individually create and set each image url list
         }
     }
 }

@@ -10,6 +10,7 @@
     <dimen name="header_subtext">16sp</dimen>
     <dimen name="header_padding">8dp</dimen>
     <dimen name="subheader_padding">3dp</dimen>
+    <dimen name="workout_detail_margin">5dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

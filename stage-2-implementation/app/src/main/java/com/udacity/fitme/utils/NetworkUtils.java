@@ -16,6 +16,7 @@ public class NetworkUtils {
     private static final String EQUIPMENT = "equipment";
     private static final String EXERCISE_CATEGORY = "exercisecategory";
     private static final String EXERCISE = "exercise";
+    private static final String EXERCISE_IMAGE = "exerciseimage";
     private static final String LANGUAGE = "language";
 
     public static URL buildCategoriesUrl() {
@@ -65,8 +66,19 @@ public class NetworkUtils {
         return url;
     }
 
-    public static URL buildImageUrl() {
-        return null;
+    public static URL buildImageUrl(int exerciseId) {
+        Uri uri = Uri.parse(BASE_URL).buildUpon()
+                .appendPath(EXERCISE_IMAGE)
+                .appendQueryParameter(LANGUAGE, "2").build();
+        uri = uri.buildUpon()
+                .appendQueryParameter(EXERCISE, Integer.toString(exerciseId)).build();
+        URL url = null;
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
     }
 
     /* This code was referenced from the Udacity Sunshine exercise on Networking */
