@@ -2,6 +2,7 @@ package com.udacity.fitme.data;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -68,7 +69,7 @@ public class WorkoutDetailAdapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WorkoutViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WorkoutViewHolder holder, final int position) {
         LinearLayout.LayoutParams contentParams =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -93,9 +94,13 @@ public class WorkoutDetailAdapter
                 @Override
                 public void onClick(View v) {
                     ExerciseImageFragment imageDetail = new ExerciseImageFragment();
+                    Bundle exerciseInfo = new Bundle();
+                    exerciseInfo.putStringArrayList(mContext.getString(R.string.image_list_extra),
+                            mExerciseList.get(position).getmImageUrlList());
+                    imageDetail.setArguments(exerciseInfo);
                     ((WorkoutDetailActivity) mContext).getSupportFragmentManager()
                             .beginTransaction()
-                            .add(R.id.workout_detail_activity, imageDetail)
+                            .replace(R.id.workout_detail_activity, imageDetail)
                             .addToBackStack(null)
                             .commit();
                 }

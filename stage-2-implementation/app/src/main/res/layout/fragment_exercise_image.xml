@@ -5,4 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".views.ExerciseImageFragment"
     android:orientation="vertical"
-    android:id="@+id/image_layout"/>
+    android:id="@+id/image_layout">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/exercise_image_holder"
+            android:orientation="vertical"/>
+    </ScrollView>
+</LinearLayout>

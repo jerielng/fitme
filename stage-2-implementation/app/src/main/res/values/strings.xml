@@ -15,6 +15,7 @@
     <string name="cancel_button_text">Cancel</string>
     <string name="workout_name_extra">workout_name</string>
     <string name="exercise_list_extra">exercise_list</string>
+    <string name="image_list_extra">image_list</string>
     <string name="add_to_widget">Add to Widget</string>
     <string name="save_this_workout">Save this Workout</string>
     <string name="toast_workout_saved">Workout Saved!</string>
@@ -25,4 +26,7 @@
     <string name="saved_workouts_default_sub">Click on \"Generate\" to create a workout.</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
