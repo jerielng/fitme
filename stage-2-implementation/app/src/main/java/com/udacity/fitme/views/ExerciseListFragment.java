@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.udacity.fitme.BuildConfig;
 import com.udacity.fitme.R;
 import com.udacity.fitme.WorkoutDetailActivity;
 import com.udacity.fitme.data.WorkoutDetailAdapter;
@@ -46,6 +50,8 @@ public class ExerciseListFragment extends Fragment {
     private LinearLayoutManager mWorkoutLayoutManager;
     private WorkoutDetailAdapter mWorkoutDetailAdapter;
 
+    @BindView(R.id.exercise_list_ad) AdView mAdview;
+
     public ExerciseListFragment() { }
 
     @Override
@@ -71,6 +77,12 @@ public class ExerciseListFragment extends Fragment {
         for (Exercise e : mExerciseList) {
             new FetchImageUrlsTask().execute(e.getmId());
         }
+
+        MobileAds.initialize(getActivity().getApplicationContext(), BuildConfig.ADMOB_APP_ID);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdview.loadAd(adRequest);
         return view;
     }
 
