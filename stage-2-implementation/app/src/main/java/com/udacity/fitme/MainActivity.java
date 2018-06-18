@@ -1,5 +1,6 @@
 package com.udacity.fitme;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -20,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     private GenerateFragment mGenerateFragment;
     private SavedWorkoutsFragment mSavedWorkoutsFragment;
-    private FindGymFragment mFindGymFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
         mGenerateFragment = new GenerateFragment();
         mSavedWorkoutsFragment = new SavedWorkoutsFragment();
-        mFindGymFragment = new FindGymFragment();
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -61,11 +60,10 @@ public class MainActivity extends AppCompatActivity {
                             .commit();
                     return true;
                 case R.id.navigation_gym:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, mFindGymFragment)
-                            .commit();
-                    return true;
+                    Intent mapIntent = new Intent(MainActivity.this,
+                            FindGymActivity.class);
+                    startActivity(mapIntent);
+                    return false;
             }
             return false;
         }

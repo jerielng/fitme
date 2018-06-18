@@ -20,6 +20,8 @@ android {
     buildTypes.each {
         it.buildConfigField('String', 'ADMOB_APP_ID', AdMobAppId)
         it.resValue('string', 'ADMOB_AD_UNIT_ID', AdMobAdUnitId)
+        it.resValue('string', 'MAPS_API_KEY', MapsApiKey)
+        it.resValue('string', 'PLACES_API_KEY', PlacesApiKey)
     }
 }
 
@@ -34,6 +36,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.google.android.gms:play-services-places:15.0.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
     testImplementation 'junit:junit:4.12'
