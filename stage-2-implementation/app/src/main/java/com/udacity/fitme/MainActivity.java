@@ -14,10 +14,12 @@ import com.udacity.fitme.views.GenerateFragment;
 import com.udacity.fitme.views.SavedWorkoutsFragment;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.fragment_container) ConstraintLayout mFragmentHolder;
+    @BindView(R.id.navigation) BottomNavigationView mNavigation;
 
     private GenerateFragment mGenerateFragment;
     private SavedWorkoutsFragment mSavedWorkoutsFragment;
@@ -27,17 +29,46 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mGenerateFragment = new GenerateFragment();
-        mSavedWorkoutsFragment = new SavedWorkoutsFragment();
+        ButterKnife.bind(this);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_container, mGenerateFragment)
-                .commit();
+        if (savedInstanceState == null) {
+            mGenerateFragment = new GenerateFragment();
+            mSavedWorkoutsFragment = new SavedWorkoutsFragment();
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_generate);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_container, mGenerateFragment)
+                    .commit();
+
+            mNavigation.setSelectedItemId(R.id.navigation_generate);
+        } else {
+            mGenerateFragment =
+                    (GenerateFragment) getSupportFragmentManager()
+                            .getFragment(savedInstanceState, "generate_fragment");
+            mSavedWorkoutsFragment =
+                    (SavedWorkoutsFragment) getSupportFragmentManager()
+                            .getFragment(savedInstanceState, "saved_fragment");
+        }
+
+        mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mGenerateFragment != null && mGenerateFragment.isAdded()) {
+            getSupportFragmentManager()
+                    .putFragment(outState, "generate_fragment", mGenerateFragment);
+        }
+        if (mSavedWorkoutsFragment != null && mSavedWorkoutsFragment.isAdded()) {
+            getSupportFragmentManager()
+                    .putFragment(outState, "saved_fragment", mSavedWorkoutsFragment);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -47,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_saved:
-                    //check current visible fragment
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, mSavedWorkoutsFragment)

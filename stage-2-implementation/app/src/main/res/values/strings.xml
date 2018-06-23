@@ -17,6 +17,8 @@
     <string name="exercise_list_extra">exercise_list</string>
     <string name="image_list_extra">image_list</string>
     <string name="zoom_level_extra">zoom_level</string>
+    <string name="camera_target_extra">camera_target</string>
+    <string name="current_location">Current Location</string>
     <string name="add_to_widget">Add to Widget</string>
     <string name="save_this_workout">Save this Workout</string>
     <string name="toast_workout_saved">Workout Saved!</string>

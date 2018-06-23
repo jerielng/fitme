@@ -3,6 +3,7 @@ package com.udacity.fitme;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -32,6 +33,7 @@ public class FindGymActivity extends FragmentActivity implements OnMapReadyCallb
     private FusedLocationProviderClient mFusedLocationClient;
     private GoogleMap mMap;
     private float mZoomLevel;
+    private LatLng mCameraTarget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +51,22 @@ public class FindGymActivity extends FragmentActivity implements OnMapReadyCallb
         mapFragment.getMapAsync(this);
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -78,15 +87,13 @@ public class FindGymActivity extends FragmentActivity implements OnMapReadyCallb
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putFloat(getString(R.string.zoom_level_extra), mMap.getCameraPosition().zoom);
-//        outState.putParcelable
-//                (getString(R.string.zoom_level_extra), mMap.getCameraPosition().target);
+        outState.putParcelable
+                (getString(R.string.camera_target_extra), mMap.getCameraPosition().target);
         super.onSaveInstanceState(outState);
     }
 
@@ -94,7 +101,7 @@ public class FindGymActivity extends FragmentActivity implements OnMapReadyCallb
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mZoomLevel = savedInstanceState.getFloat(getString(R.string.zoom_level_extra));
-//        mCameraTarget = saved
+        mCameraTarget = savedInstanceState.getParcelable(getString(R.string.camera_target_extra));
     }
 
     public void updateMapLocation() {
@@ -116,15 +123,20 @@ public class FindGymActivity extends FragmentActivity implements OnMapReadyCallb
                                 if (mZoomLevel == 0.0f) {
                                     mZoomLevel = 12.0f;
                                 }
+                                if (mCameraTarget == null) {
+                                    mCameraTarget = currentLocation;
+                                }
                                 mMap.addMarker
                                         (new MarkerOptions()
                                                 .position(currentLocation)
-                                                .title("Current marker"));
+                                                .title(getString(R.string.current_location)));
                                 mMap.moveCamera(CameraUpdateFactory
-                                        .newLatLngZoom(currentLocation, mZoomLevel));
+                                        .newLatLngZoom(mCameraTarget, mZoomLevel));
                             }
                         }
                     });
         }
     }
+
+//    class FetchGymsTask extends AsyncTask
 }
