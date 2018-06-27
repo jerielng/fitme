@@ -19,6 +19,7 @@ android {
 
     buildTypes.each {
         it.buildConfigField('String', 'ADMOB_APP_ID', AdMobAppId)
+        it.buildConfigField('String', 'PLACES_API_STRING', PlacesApiKey)
         it.resValue('string', 'ADMOB_AD_UNIT_ID', AdMobAdUnitId)
         it.resValue('string', 'MAPS_API_KEY', MapsApiKey)
         it.resValue('string', 'PLACES_API_KEY', PlacesApiKey)

@@ -23,6 +23,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.udacity.fitme.utils.MapNetworkUtils;
+
+import java.net.URL;
 
 public class FindGymActivity extends FragmentActivity implements OnMapReadyCallback,
         OnConnectionFailedListener {
@@ -45,7 +48,6 @@ public class FindGymActivity extends FragmentActivity implements OnMapReadyCallb
                 .addApi(Places.GEO_DATA_API)
                 .enableAutoManage(this, this)
                 .build();
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -132,11 +134,33 @@ public class FindGymActivity extends FragmentActivity implements OnMapReadyCallb
                                                 .title(getString(R.string.current_location)));
                                 mMap.moveCamera(CameraUpdateFactory
                                         .newLatLngZoom(mCameraTarget, mZoomLevel));
+                                String currentString = currentLocation.toString();
+                                currentString = currentString
+                                        .substring(currentString.indexOf("(") + 1,
+                                                currentString.indexOf(")"));
+                                new FetchGymsTask().execute(currentString);
                             }
                         }
                     });
         }
     }
 
-//    class FetchGymsTask extends AsyncTask
+    class FetchGymsTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                URL nearbyRequestUrl = MapNetworkUtils.buildNearbySearchUrl(strings[0]);
+                return MapNetworkUtils.getResponseFromHttpUrl(nearbyRequestUrl);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            System.out.println(s);
+            super.onPostExecute(s);
+        }
+    }
 }

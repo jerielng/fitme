@@ -9,18 +9,13 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public class WorkoutProvider extends ContentProvider {
+public class ExerciseProvider extends ContentProvider {
 
     public static final String PREFIX = "content://";
     public static final String AUTHORITY = "com.udacity.fitme";
     public static final Uri URI_BASE = Uri.parse(PREFIX + AUTHORITY);
-    public static final Uri WORKOUT_CONTENT_URI =
-            URI_BASE.buildUpon().appendPath(SavedDbHelper.WORKOUTS_TABLE_NAME).build();
-
-    public static final String COLUMN_WORKOUT_ID = "workout_id";
-    public static final String COLUMN_EXERCISE_ID = "exercise_id";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_DESCRIPTION = "description";
+    public static final Uri EXERCISE_CONTENT_URI =
+            URI_BASE.buildUpon().appendPath(SavedDbHelper.EXERCISES_TABLE_NAME).build();
 
     private SavedDbHelper mDbHelper;
 
@@ -34,10 +29,10 @@ public class WorkoutProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         final SQLiteDatabase database = mDbHelper.getWritableDatabase();
-        long workoutId = database
-                .insert(SavedDbHelper.WORKOUTS_TABLE_NAME, null, values);
-        if (workoutId > 0) {
-            Uri result = ContentUris.withAppendedId(uri, workoutId);
+        long exerciseId = database
+                .insert(SavedDbHelper.EXERCISES_TABLE_NAME, null, values);
+        if (exerciseId > 0) {
+            Uri result = ContentUris.withAppendedId(uri, exerciseId);
             getContext().getContentResolver().notifyChange(result, null);
             return result;
         } else {
@@ -52,7 +47,7 @@ public class WorkoutProvider extends ContentProvider {
                         @Nullable String sortOrder) {
         Cursor cursor;
         cursor = mDbHelper.getReadableDatabase().query(
-                SavedDbHelper.WORKOUTS_TABLE_NAME,
+                SavedDbHelper.EXERCISES_TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,
@@ -78,7 +73,7 @@ public class WorkoutProvider extends ContentProvider {
             selection = "1";
         }
         int deleted = database
-                .delete(SavedDbHelper.WORKOUTS_TABLE_NAME, selection, selectionArgs);
+                .delete(SavedDbHelper.EXERCISES_TABLE_NAME, selection, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
         return deleted;
     }

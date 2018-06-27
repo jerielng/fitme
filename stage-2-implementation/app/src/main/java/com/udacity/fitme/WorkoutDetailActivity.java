@@ -1,34 +1,16 @@
 package com.udacity.fitme;
 
-import android.graphics.drawable.AnimationDrawable;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.udacity.fitme.data.WorkoutDetailAdapter;
 import com.udacity.fitme.model.Exercise;
-import com.udacity.fitme.utils.NetworkUtils;
 import com.udacity.fitme.views.ExerciseListFragment;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.URL;
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class WorkoutDetailActivity extends AppCompatActivity {
 
@@ -67,9 +49,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             case R.id.settings_save_workout:
                 saveWorkout();
                 return true;
-            case R.id.settings_add_to_widget:
-                addToWidget();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -87,11 +66,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
     public void saveWorkout() {
         Toast.makeText(this, getString(R.string.toast_workout_saved),
-                Toast.LENGTH_SHORT).show();
-    }
-
-    public void addToWidget() {
-        Toast.makeText(this, getString(R.string.toast_added_to_widget),
                 Toast.LENGTH_SHORT).show();
     }
 }
