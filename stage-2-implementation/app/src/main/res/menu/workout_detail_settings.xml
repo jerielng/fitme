@@ -5,4 +5,12 @@
         android:id="@+id/settings_save_workout"
         android:title="@string/save_this_workout" />
 
+    <item
+        android:id="@+id/settings_unsave_workout"
+        android:title="@string/unsave_this_workout" />
+
+    <item
+        android:id="@+id/settings_add_to_widget"
+        android:title="@string/add_to_widget" />
+
 </menu>

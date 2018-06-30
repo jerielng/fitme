@@ -63,9 +63,7 @@ public class WorkoutDetailAdapter
         exerciseLayout.setBackgroundColor(mContext.getResources().getColor(R.color.card_back));
         exerciseLayout.setPadding(10, 15, 10, 15);
         exerciseLayout.setElevation(8);
-        WorkoutDetailAdapter.WorkoutViewHolder workoutViewHolder =
-                new WorkoutDetailAdapter.WorkoutViewHolder(exerciseLayout);
-        return workoutViewHolder;
+        return new WorkoutDetailAdapter.WorkoutViewHolder(exerciseLayout);
     }
 
     @Override

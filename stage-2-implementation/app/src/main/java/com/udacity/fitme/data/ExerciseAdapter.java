@@ -92,8 +92,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         exerciseCardLayout.setPadding(50, 100, 50, 100);
         exerciseCardLayout.setBackgroundResource(R.color.card_back);
         exerciseCardLayout.setElevation(8);
-        ExerciseViewHolder exerciseCard = new ExerciseViewHolder(exerciseCardLayout);
-        return exerciseCard;
+        return new ExerciseViewHolder(exerciseCardLayout);
     }
 
     @Override

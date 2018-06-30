@@ -53,6 +53,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
+        <provider
+            android:authorities="@string/workout_content_authority"
+            android:name=".data.WorkoutProvider"
+            android:exported="false"/>
+
+        <provider
+            android:authorities="@string/exercise_content_authority"
+            android:name=".data.ExerciseProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>

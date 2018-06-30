@@ -29,6 +29,8 @@
     <string name="no_workouts_found">Sorry! There are no workouts for your criteria.</string>
     <string name="saved_workouts_default">You have no saved workouts.</string>
     <string name="saved_workouts_default_sub">Click on \"Generate\" to create a workout.</string>
+    <string name="workout_content_authority">com.udacity.fitme.workoutprovider</string>
+    <string name="exercise_content_authority">com.udacity.fitme.exerciseprovider</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="title_activity_find_gym">Map</string>

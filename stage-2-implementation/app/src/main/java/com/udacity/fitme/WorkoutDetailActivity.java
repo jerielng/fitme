@@ -1,5 +1,9 @@
 package com.udacity.fitme;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.udacity.fitme.data.ExerciseProvider;
+import com.udacity.fitme.data.WorkoutProvider;
 import com.udacity.fitme.model.Exercise;
 import com.udacity.fitme.views.ExerciseListFragment;
 
@@ -65,7 +71,41 @@ public class WorkoutDetailActivity extends AppCompatActivity {
     }
 
     public void saveWorkout() {
+        ContentValues mWorkoutValues = new ContentValues();
+        mWorkoutValues.put(WorkoutProvider.COLUMN_NAME, mWorkoutName);
+        Uri workoutUri =
+                getContentResolver().insert(WorkoutProvider.WORKOUT_CONTENT_URI, mWorkoutValues);
+        long parsedId = ContentUris.parseId(workoutUri);
+        for (Exercise e : mExerciseList) {
+            ContentValues mExerciseValues = new ContentValues();
+            mExerciseValues.put(WorkoutProvider.COLUMN_NAME, e.getmName());
+            mExerciseValues.put(WorkoutProvider.COLUMN_DESCRIPTION, e.getmDescription());
+            mExerciseValues.put(WorkoutProvider.COLUMN_WORKOUT_ID, parsedId);
+            getContentResolver().insert(ExerciseProvider.EXERCISE_CONTENT_URI, mExerciseValues);
+        }
         Toast.makeText(this, getString(R.string.toast_workout_saved),
                 Toast.LENGTH_SHORT).show();
+    }
+
+    public void unsaveWorkout() {
+
+    }
+
+    public boolean isSaved() {
+        Uri uri = WorkoutProvider.WORKOUT_CONTENT_URI;
+        Cursor cursor = getContentResolver()
+                .query(uri, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                String workoutName = cursor
+                        .getString(cursor.getColumnIndex(WorkoutProvider.COLUMN_NAME));
+                if (mWorkoutName.equals(workoutName)) {
+                    return true;
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return false;
     }
 }

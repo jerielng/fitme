@@ -20,12 +20,14 @@ public class SavedDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_WORKOUTS_TABLE =
                 "CREATE TABLE " + WORKOUTS_TABLE_NAME
                 + " ("
-                + WorkoutProvider.COLUMN_WORKOUT_ID + " INTEGER PRIMARY KEY, "
+                + WorkoutProvider.COLUMN_WORKOUT_ID +
+                        " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + WorkoutProvider.COLUMN_NAME + " TEXT);";
         final String SQL_CREATE_EXERCISES_TABLE =
                 "CREATE TABLE " + EXERCISES_TABLE_NAME
                         + " ("
-                        + WorkoutProvider.COLUMN_EXERCISE_ID + " INTEGER PRIMARY KEY, "
+                        + WorkoutProvider.COLUMN_EXERCISE_ID
+                        + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                         + WorkoutProvider.COLUMN_NAME + " TEXT, "
                         + WorkoutProvider.COLUMN_DESCRIPTION + " TEXT, "
                         + WorkoutProvider.COLUMN_WORKOUT_ID + " INTEGER);";

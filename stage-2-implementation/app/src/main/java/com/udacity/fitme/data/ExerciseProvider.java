@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 public class ExerciseProvider extends ContentProvider {
 
     public static final String PREFIX = "content://";
-    public static final String AUTHORITY = "com.udacity.fitme";
+    public static final String AUTHORITY = "com.udacity.fitme.exerciseprovider";
     public static final Uri URI_BASE = Uri.parse(PREFIX + AUTHORITY);
     public static final Uri EXERCISE_CONTENT_URI =
             URI_BASE.buildUpon().appendPath(SavedDbHelper.EXERCISES_TABLE_NAME).build();
