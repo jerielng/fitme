@@ -18,7 +18,13 @@ import com.udacity.fitme.views.ExerciseListFragment;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class WorkoutDetailActivity extends AppCompatActivity {
+
+    private MenuItem saveButton;
+    private MenuItem unsaveButton;
 
     private String mWorkoutName;
     private ArrayList<Exercise> mExerciseList;
@@ -46,6 +52,15 @@ public class WorkoutDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.workout_detail_settings, menu);
+        saveButton = menu.findItem(R.id.settings_save_workout);
+        unsaveButton = menu.findItem(R.id.settings_unsave_workout);
+        if (isSaved()) {
+            saveButton.setVisible(false);
+            unsaveButton.setVisible(true);
+        } else {
+            saveButton.setVisible(true);
+            unsaveButton.setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -54,6 +69,12 @@ public class WorkoutDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.settings_save_workout:
                 saveWorkout();
+                return true;
+            case R.id.settings_unsave_workout:
+                unsaveWorkout();
+                return true;
+            case R.id.settings_add_to_widget:
+                addWidget();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -83,12 +104,25 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             mExerciseValues.put(WorkoutProvider.COLUMN_WORKOUT_ID, parsedId);
             getContentResolver().insert(ExerciseProvider.EXERCISE_CONTENT_URI, mExerciseValues);
         }
+        saveButton.setVisible(false);
+        unsaveButton.setVisible(true);
         Toast.makeText(this, getString(R.string.toast_workout_saved),
                 Toast.LENGTH_SHORT).show();
     }
 
     public void unsaveWorkout() {
+        String WHERE_PARAM = WorkoutProvider.COLUMN_NAME + " = \"" + mWorkoutName + "\"";
+        getContentResolver()
+                .delete(WorkoutProvider.WORKOUT_CONTENT_URI, WHERE_PARAM, null);
+        unsaveButton.setVisible(false);
+        saveButton.setVisible(true);
+        Toast.makeText(this, getString(R.string.toast_workout_removed),
+                Toast.LENGTH_SHORT).show();
+    }
 
+    public void addWidget() {
+        Toast.makeText(this, getString(R.string.toast_added_to_widget),
+                Toast.LENGTH_SHORT).show();
     }
 
     public boolean isSaved() {
