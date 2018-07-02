@@ -2,18 +2,27 @@ package com.udacity.fitme;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
+
+import com.udacity.fitme.model.Exercise;
+
+import java.util.ArrayList;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class WorkoutWidgetProvider extends AppWidgetProvider {
 
+    private static String mWorkoutName = "";
+    private static ArrayList<Exercise> mExerciseList = new ArrayList<Exercise>();
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
+        CharSequence widgetText = mWorkoutName;
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.workout_widget_provider);
         views.setTextViewText(R.id.appwidget_text, widgetText);
@@ -31,13 +40,21 @@ public class WorkoutWidgetProvider extends AppWidgetProvider {
     }
 
     @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
-    }
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        String workoutNameExtra = context.getString(R.string.workout_name_extra);
+        String exercisesListExtra = context.getString(R.string.exercise_list_extra);
 
-    @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
+        if (intent.hasExtra(workoutNameExtra) && intent.hasExtra(exercisesListExtra)) {
+            mWorkoutName = intent.getStringExtra(workoutNameExtra);
+            mExerciseList = intent.getParcelableArrayListExtra(exercisesListExtra);
+
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            ComponentName componentName = new ComponentName(context.getPackageName(),
+                    WorkoutWidgetProvider.class.getName());
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
+            onUpdate(context, appWidgetManager, appWidgetIds);
+        }
     }
 }
 

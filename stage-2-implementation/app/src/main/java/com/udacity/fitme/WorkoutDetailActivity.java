@@ -1,7 +1,9 @@
 package com.udacity.fitme;
 
+import android.appwidget.AppWidgetManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -121,6 +123,11 @@ public class WorkoutDetailActivity extends AppCompatActivity {
     }
 
     public void addWidget() {
+        Intent widgetIntent = new Intent(this, WorkoutWidgetProvider.class);
+        widgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        widgetIntent.putExtra(getString(R.string.workout_name_extra), mWorkoutName);
+        widgetIntent.putExtra(getString(R.string.exercise_list_extra), mExerciseList);
+        sendBroadcast(widgetIntent);
         Toast.makeText(this, getString(R.string.toast_added_to_widget),
                 Toast.LENGTH_SHORT).show();
     }
