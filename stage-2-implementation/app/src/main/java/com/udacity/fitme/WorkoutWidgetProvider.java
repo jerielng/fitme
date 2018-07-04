@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import com.udacity.fitme.model.Exercise;
 
@@ -22,10 +23,15 @@ public class WorkoutWidgetProvider extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = mWorkoutName;
+        CharSequence widgetTitle = mWorkoutName;
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.workout_widget_provider);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+        RemoteViews views =
+                new RemoteViews(context.getPackageName(), R.layout.workout_widget_provider);
+        if (!mWorkoutName.equals("") && !mExerciseList.isEmpty()) {
+            views.setTextViewText(R.id.widget_workout_name, widgetTitle);
+            views.setTextViewText(R.id.widget_exercise_text,
+                    mExerciseList.get(0).getmDescription());
+        }
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
