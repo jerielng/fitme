@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'capstone'
+            keyPassword 'password'
+            storeFile file('C:/Users/Jeriel/Documents/GitHub/capstone-project/stage-2-implementation/keystore.jks')
+            storePassword 'password'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.udacity.fitme"
@@ -14,9 +22,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
-
     buildTypes.each {
         it.buildConfigField('String', 'ADMOB_APP_ID', AdMobAppId)
         it.buildConfigField('String', 'PLACES_API_STRING', PlacesApiKey)
@@ -27,7 +35,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.1'

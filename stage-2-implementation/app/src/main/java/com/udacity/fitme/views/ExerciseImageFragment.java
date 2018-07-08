@@ -40,6 +40,7 @@ public class ExerciseImageFragment extends Fragment {
         for (String s : mExerciseImageList) {
             ImageView exerciseImage = new ImageView(getContext());
             Picasso.get().load(s).into(exerciseImage);
+            exerciseImage.setContentDescription(s);
             mExerciseImageHolder.addView(exerciseImage);
         }
         return view;

@@ -42,12 +42,14 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                 getIntent().getParcelableArrayListExtra(getString(R.string.exercise_list_extra));
         getSupportActionBar().setTitle(mWorkoutName);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mExerciseListFragment = new ExerciseListFragment();
-        mExerciseListFragment.setArguments(getIntent().getExtras());
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.workout_detail_activity, mExerciseListFragment)
-                .commit();
+        if (savedInstanceState == null) {
+            mExerciseListFragment = new ExerciseListFragment();
+            mExerciseListFragment.setArguments(getIntent().getExtras());
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.workout_detail_activity, mExerciseListFragment)
+                    .commit();
+        }
     }
 
     @Override

@@ -16,6 +16,7 @@
         android:orientation="vertical">
         <ImageView
             android:id="@+id/loading_animation"
+            android:contentDescription="@string/loading_image_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

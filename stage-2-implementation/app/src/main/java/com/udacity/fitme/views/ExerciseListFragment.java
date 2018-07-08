@@ -3,6 +3,8 @@ package com.udacity.fitme.views;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -72,10 +74,16 @@ public class ExerciseListFragment extends Fragment {
         mWorkoutLayoutManager = new LinearLayoutManager(getActivity());
         mWorkoutDetailRecycler.setLayoutManager(mWorkoutLayoutManager);
 
-        ((AnimationDrawable) mLoadingImage.getBackground()).start();
-        mLoadingScreen.setVisibility(View.VISIBLE);
-        for (Exercise e : mExerciseList) {
-            new FetchImageUrlsTask().execute(e.getmId());
+        if (savedInstanceState == null) {
+            ((AnimationDrawable) mLoadingImage.getBackground()).start();
+            mLoadingScreen.setVisibility(View.VISIBLE);
+            for (Exercise e : mExerciseList) {
+                new FetchImageUrlsTask().execute(e.getmId());
+            }
+        } else {
+            mExerciseList = savedInstanceState
+                    .getParcelableArrayList(getString(R.string.exercise_list_extra));
+            setDetailAdapter();
         }
 
         MobileAds.initialize(getActivity().getApplicationContext(), BuildConfig.ADMOB_APP_ID);
@@ -84,6 +92,18 @@ public class ExerciseListFragment extends Fragment {
                 .build();
         mAdview.loadAd(adRequest);
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(getString(R.string.exercise_list_extra), mExerciseList);
+    }
+
+    public void setDetailAdapter() {
+        mWorkoutDetailAdapter =
+                new WorkoutDetailAdapter(getActivity(), mExerciseList);
+        mWorkoutDetailRecycler.setAdapter(mWorkoutDetailAdapter);
     }
 
     class FetchImageUrlsTask extends AsyncTask<Integer, Void, String> {
@@ -116,9 +136,7 @@ public class ExerciseListFragment extends Fragment {
                         }
                     }
                 }
-                mWorkoutDetailAdapter =
-                        new WorkoutDetailAdapter(getActivity(), mExerciseList);
-                mWorkoutDetailRecycler.setAdapter(mWorkoutDetailAdapter);
+                setDetailAdapter();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
