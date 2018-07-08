@@ -8,6 +8,7 @@
     <TextView
         android:id="@+id/widget_workout_name"
         android:layout_width="match_parent"
+        android:text="@string/no_workout_added"
         android:textStyle="bold"
         android:textColor="@color/card_text"
         android:textAlignment="center"

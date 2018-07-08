@@ -222,7 +222,6 @@ public class GenerateFragment extends Fragment {
         @Override
         protected String doInBackground(Void... voids) {
             try {
-
                 URL exerciseRequestUrl = NetworkUtils.buildExerciseUrl
                         (((ExerciseCategoryAdapter) mCategoryAdapter).getmSelectedIdList(),
                                 ((EquipmentAdapter) mEquipmentAdapter).getmSelectedIdList());
