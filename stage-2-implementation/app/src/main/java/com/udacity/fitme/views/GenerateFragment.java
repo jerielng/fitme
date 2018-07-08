@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,20 +58,23 @@ public class GenerateFragment extends Fragment {
     private RecyclerView.Adapter mEquipmentAdapter;
     private RecyclerView.Adapter mExerciseAdapter;
 
+    private String mCategoryJsonResults;
+    private String mEquipmentJsonResults;
+    private String mExerciseJsonResults;
+
     public GenerateFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_generate, container, false);
         ButterKnife.bind(this, view);
         mContext = container.getContext();
-        mStepPosition = 0;
 
         mCategoryLayoutManager = new GridLayoutManager(getContext(), 2,
                 LinearLayoutManager.VERTICAL, false);
@@ -93,12 +98,45 @@ public class GenerateFragment extends Fragment {
             }
         });
 
-        resetFragment();
-
         ((AppCompatActivity) mContext)
                 .getSupportActionBar()
                 .setTitle(getString(R.string.title_generate_full));
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            mStepPosition = savedInstanceState.getInt(getString(R.string.generate_position_extra));
+            mCategoryJsonResults =
+                    savedInstanceState.getString(getString(R.string.category_json_extra));
+            mEquipmentJsonResults =
+                    savedInstanceState.getString(getString(R.string.equipment_json_extra));
+            mExerciseJsonResults =
+                    savedInstanceState.getString(getString(R.string.exercise_json_extra));
+            if (!TextUtils.isEmpty(mCategoryJsonResults)) {
+                setCategoryAdapter(mCategoryJsonResults);
+            }
+            if (!TextUtils.isEmpty(mEquipmentJsonResults)) {
+                setEquipmentAdapter(mEquipmentJsonResults);
+            }
+            if (!TextUtils.isEmpty(mExerciseJsonResults)) {
+                setExerciseAdapter(mExerciseJsonResults);
+            }
+            swapStepView();
+        } else {
+            resetFragment();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(getString(R.string.generate_position_extra), mStepPosition);
+        outState.putString(getString(R.string.category_json_extra), mCategoryJsonResults);
+        outState.putString(getString(R.string.equipment_json_extra), mEquipmentJsonResults);
+        outState.putString(getString(R.string.exercise_json_extra), mExerciseJsonResults);
     }
 
     public void swapStepView() {
@@ -124,7 +162,8 @@ public class GenerateFragment extends Fragment {
                 mEquipmentView.setVisibility(View.GONE);
                 mExerciseView.setVisibility(View.VISIBLE);
                 mGenerateFab.setImageResource(R.drawable.ic_baseline_thumb_up_24px);
-                if (mCategoryAdapter != null && mEquipmentAdapter != null) {
+                if (mCategoryAdapter != null && mEquipmentAdapter != null
+                        && TextUtils.isEmpty(mExerciseJsonResults)) {
                     new FetchExercisesTask().execute();
                 }
                 break;
@@ -179,6 +218,21 @@ public class GenerateFragment extends Fragment {
         mLoadingLayout.setVisibility(View.GONE);
     }
 
+    public void setCategoryAdapter(String jsonString) {
+        mCategoryAdapter = new ExerciseCategoryAdapter(getContext(), jsonString);
+        mCategoryView.setAdapter(mCategoryAdapter);
+    }
+
+    public void setEquipmentAdapter(String jsonString) {
+        mEquipmentAdapter = new EquipmentAdapter(getContext(), jsonString);
+        mEquipmentView.setAdapter(mEquipmentAdapter);
+    }
+
+    public void setExerciseAdapter(String jsonString) {
+        mExerciseAdapter = new ExerciseAdapter(getContext(), jsonString);
+        mExerciseView.setAdapter(mExerciseAdapter);
+    }
+
     class FetchCategoriesTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... voids) {
@@ -194,8 +248,8 @@ public class GenerateFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             hideLoading();
-            mCategoryAdapter = new ExerciseCategoryAdapter(getContext(), s);
-            mCategoryView.setAdapter(mCategoryAdapter);
+            mCategoryJsonResults = s;
+            setCategoryAdapter(mCategoryJsonResults);
         }
     }
 
@@ -213,8 +267,8 @@ public class GenerateFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            mEquipmentAdapter = new EquipmentAdapter(getContext(), s);
-            mEquipmentView.setAdapter(mEquipmentAdapter);
+            mEquipmentJsonResults = s;
+            setEquipmentAdapter(mEquipmentJsonResults);
         }
     }
 
@@ -235,8 +289,8 @@ public class GenerateFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             hideLoading();
-            mExerciseAdapter = new ExerciseAdapter(getContext(), s);
-            mExerciseView.setAdapter(mExerciseAdapter);
+            mExerciseJsonResults = s;
+            setExerciseAdapter(mExerciseJsonResults);
         }
     }
 }

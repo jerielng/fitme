@@ -19,6 +19,10 @@
     <string name="image_list_extra">image_list</string>
     <string name="zoom_level_extra">zoom_level</string>
     <string name="camera_target_extra">camera_target</string>
+    <string name="generate_position_extra">generate_position</string>
+    <string name="category_json_extra">category_json</string>
+    <string name="equipment_json_extra">equipment_json</string>
+    <string name="exercise_json_extra">exercise_json</string>
     <string name="current_location">Current Location</string>
     <string name="add_to_widget">Add to Widget</string>
     <string name="save_this_workout">Save this Workout</string>
