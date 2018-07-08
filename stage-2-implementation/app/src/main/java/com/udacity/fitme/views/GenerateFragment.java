@@ -62,6 +62,9 @@ public class GenerateFragment extends Fragment {
     private String mEquipmentJsonResults;
     private String mExerciseJsonResults;
 
+    private AlertDialog.Builder mInputBuilder;
+    private EditText mInputField;
+
     public GenerateFragment() { }
 
     @Override
@@ -90,7 +93,7 @@ public class GenerateFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mStepPosition == 2) {
-                    createInputDialog();
+                    createInputDialog("");
                 } else {
                     mStepPosition++;
                     swapStepView();
@@ -115,6 +118,8 @@ public class GenerateFragment extends Fragment {
                     savedInstanceState.getString(getString(R.string.equipment_json_extra));
             mExerciseJsonResults =
                     savedInstanceState.getString(getString(R.string.exercise_json_extra));
+            String inputString = savedInstanceState
+                    .getString(getString(R.string.input_string_extra));
             if (!TextUtils.isEmpty(mCategoryJsonResults)) {
                 setCategoryAdapter(mCategoryJsonResults);
             }
@@ -123,6 +128,9 @@ public class GenerateFragment extends Fragment {
             }
             if (!TextUtils.isEmpty(mExerciseJsonResults)) {
                 setExerciseAdapter(mExerciseJsonResults);
+            }
+            if (inputString != null) {
+                createInputDialog(inputString);
             }
             swapStepView();
         } else {
@@ -137,6 +145,10 @@ public class GenerateFragment extends Fragment {
         outState.putString(getString(R.string.category_json_extra), mCategoryJsonResults);
         outState.putString(getString(R.string.equipment_json_extra), mEquipmentJsonResults);
         outState.putString(getString(R.string.exercise_json_extra), mExerciseJsonResults);
+        if (mInputField != null) {
+            outState.putString(getString(R.string.input_string_extra),
+                    mInputField.getText().toString());
+        }
     }
 
     public void swapStepView() {
@@ -177,37 +189,42 @@ public class GenerateFragment extends Fragment {
         mStepPosition = 0;
         ((AnimationDrawable) mLoadingImage.getBackground()).start();
         showLoading();
+        mInputBuilder = null;
+        mInputField = null;
         new FetchCategoriesTask().execute();
         new FetchEquipmentTask().execute();
         swapStepView();
     }
 
-    public void createInputDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(getString(R.string.enter_workout_name));
-        final EditText editText = new EditText(getActivity());
-        editText.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(editText);
-        builder.setPositiveButton(getString(R.string.generate_button_text),
+    public void createInputDialog(String previousInput) {
+        mInputBuilder = new AlertDialog.Builder(getActivity());
+        mInputBuilder.setMessage(getString(R.string.enter_workout_name));
+        mInputField = new EditText(getActivity());
+        mInputField.setInputType(InputType.TYPE_CLASS_TEXT);
+        mInputBuilder.setView(mInputField);
+        if (!TextUtils.isEmpty(previousInput)) {
+            mInputField.setText(previousInput);
+        }
+        mInputBuilder.setPositiveButton(getString(R.string.generate_button_text),
                 new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent detailIntent = new Intent(getActivity(), WorkoutDetailActivity.class);
                 detailIntent.putExtra(getString(R.string.workout_name_extra),
-                        editText.getText().toString());
+                        mInputField.getText().toString());
                 detailIntent.putParcelableArrayListExtra(getString(R.string.exercise_list_extra),
                         ((ExerciseAdapter) mExerciseAdapter).getmSelectedExerciseList());
                 getActivity().startActivity(detailIntent);
             }
         });
-        builder.setNegativeButton(getString(R.string.cancel_button_text),
+        mInputBuilder.setNegativeButton(getString(R.string.cancel_button_text),
                 new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
-        builder.show();
+        mInputBuilder.show();
     }
 
     public void showLoading() {

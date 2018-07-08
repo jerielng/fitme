@@ -8,6 +8,7 @@
     <string name="title_activity_find_gym">Find a Gym Near You</string>
     <string name="loading">Loading...</string>
     <string name="loading_image_description">Pushups Loading Image</string>
+    <string name="fab_description">Generate Button</string>
     <string name="generate_subheader">Select all that apply</string>
     <string name="muscle_header">What do you want work on?</string>
     <string name="equipment_header">What equipment do you have?</string>
@@ -24,6 +25,7 @@
     <string name="category_json_extra">category_json</string>
     <string name="equipment_json_extra">equipment_json</string>
     <string name="exercise_json_extra">exercise_json</string>
+    <string name="input_string_extra">input_string</string>
     <string name="current_location">Current Location</string>
     <string name="add_to_widget">Add to Widget</string>
     <string name="save_this_workout">Save this Workout</string>

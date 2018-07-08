@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'capstone'
             keyPassword 'password'
-            storeFile file('C:/Users/Jeriel/Documents/GitHub/capstone-project/stage-2-implementation/keystore.jks')
+            storeFile file("$rootDir/keystore.jks")
             storePassword 'password'
         }
     }
