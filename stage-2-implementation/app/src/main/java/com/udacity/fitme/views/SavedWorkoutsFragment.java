@@ -4,8 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +30,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SavedWorkoutsFragment extends Fragment {
+public class SavedWorkoutsFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @BindView(R.id.saved_workouts_list_rv) RecyclerView mWorkoutListRecycler;
     @BindView(R.id.no_workouts_text_container) LinearLayout mNoWorkoutsContainer;
@@ -54,12 +59,7 @@ public class SavedWorkoutsFragment extends Fragment {
         mWorkoutLayoutManager = new LinearLayoutManager(mContext);
         mWorkoutListRecycler.setLayoutManager(mWorkoutLayoutManager);
 
-        mWorkoutAdapter = new SavedWorkoutAdapter(mContext, loadWorkouts());
-        mWorkoutListRecycler.setAdapter(mWorkoutAdapter);
-
-        if (mWorkoutAdapter.getItemCount() == 0) {
-            mNoWorkoutsContainer.setVisibility(View.VISIBLE);
-        }
+        getLoaderManager().initLoader(0, null, this);
 
         ((AppCompatActivity) mContext)
                 .getSupportActionBar()
@@ -68,18 +68,24 @@ public class SavedWorkoutsFragment extends Fragment {
         return view;
     }
 
-    public ArrayList<Workout> loadWorkouts() {
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         Uri workoutUri = WorkoutProvider.WORKOUT_CONTENT_URI;
-        Uri exerciseUri = ExerciseProvider.EXERCISE_CONTENT_URI;
-        Cursor cursor = mContext.getContentResolver()
-                .query(workoutUri, null, null, null, null);
+        return new CursorLoader(getContext(), workoutUri,
+                null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         ArrayList<Workout> workoutArrayList = new ArrayList<>();
-        if (cursor != null && cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                int workoutId = cursor
-                        .getInt(cursor.getColumnIndex(WorkoutProvider.COLUMN_WORKOUT_ID));
-                String workoutName = cursor
-                        .getString(cursor.getColumnIndex(WorkoutProvider.COLUMN_NAME));
+        Uri exerciseUri = ExerciseProvider.EXERCISE_CONTENT_URI;
+        if (data != null && data.moveToFirst()) {
+            while (!data.isAfterLast()) {
+                int workoutId = data
+                        .getInt(data.getColumnIndex(WorkoutProvider.COLUMN_WORKOUT_ID));
+                String workoutName = data
+                        .getString(data.getColumnIndex(WorkoutProvider.COLUMN_NAME));
                 ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
                 Cursor exerciseCursor = mContext.getContentResolver()
                         .query(exerciseUri, null, null,
@@ -106,10 +112,17 @@ public class SavedWorkoutsFragment extends Fragment {
                 }
                 Workout newWorkout = new Workout(workoutName, exerciseArrayList);
                 workoutArrayList.add(newWorkout);
-                cursor.moveToNext();
+                data.moveToNext();
             }
-            cursor.close();
         }
-        return workoutArrayList;
+        mWorkoutAdapter = new SavedWorkoutAdapter(mContext, workoutArrayList);
+        mWorkoutListRecycler.setAdapter(mWorkoutAdapter);
+
+        if (mWorkoutAdapter.getItemCount() == 0) {
+            mNoWorkoutsContainer.setVisibility(View.VISIBLE);
+        }
     }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) { }
 }
