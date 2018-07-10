@@ -17,3 +17,11 @@ This app covers all the key concepts in the Android Developer Nanodegree course.
 * Google Play Services: Admob, Maps, Location, and Places
 * Material Design using AppCompat themes
 * Signing configuration with use of keystore
+
+## Screenshots
+
+<img width="35%" src="screenshots/Screenshot_20180709-211745.png" />
+<img width="35%" src="screenshots/Screenshot_20180709-211758.png" />
+<img width="35%" src="screenshots/Screenshot_20180709-211804.png" />
+<img width="35%" src="screenshots/Screenshot_20180709-211833.png" />
+<img width="35%" src="screenshots/Screenshot_20180709-211843.png" />
